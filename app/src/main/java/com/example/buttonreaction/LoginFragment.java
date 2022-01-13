@@ -1,5 +1,6 @@
 package com.example.buttonreaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -53,7 +54,8 @@ public class LoginFragment extends Fragment {
             @Override
             public void onChanged(Boolean isLoggedIn) {
                 if(isLoggedIn==true){
-                    NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_gameFragment);
+                    Intent i = new Intent(requireActivity(), GameActivity.class);
+                    startActivity(i);
                 }
             }
         });
@@ -89,7 +91,7 @@ public class LoginFragment extends Fragment {
         login_bt_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_signupFragment);
+                NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_signupFragment);
             }
         });
     }
