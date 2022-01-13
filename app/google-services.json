@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "231977437490",
+    "project_id": "buttonreaction",
+    "storage_bucket": "buttonreaction.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231977437490:android:8b7370f96545d0798a2f2b",
+        "android_client_info": {
+          "package_name": "com.example.buttonreaction"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231977437490-9hr6ljmcegt49evi414n3aor5ifb2dbc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkDcbcqlhKXZOXpluH4-8ihQYDp6C2ynM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "231977437490-9hr6ljmcegt49evi414n3aor5ifb2dbc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

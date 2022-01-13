@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ButtonReaction</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_id">ID</string>
+    <string name="hint_password">PASSWORD</string>
+    <string name="hint_name">NAME</string>
+    <string name="hint_phone">000-0000-0000</string>
+</resources>
