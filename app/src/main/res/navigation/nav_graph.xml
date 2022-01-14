@@ -40,5 +40,14 @@
         android:id="@+id/game2Fragment"
         android:name="com.example.buttonreaction.Game2Fragment"
         android:label="fragment_game2"
-        tools:layout="@layout/fragment_game2" />
+        tools:layout="@layout/fragment_game2" >
+        <action
+            android:id="@+id/action_game2Fragment_to_rankFragment"
+            app:destination="@id/rankFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rankFragment"
+        android:name="com.example.buttonreaction.rankFragment"
+        android:label="fragment_irank_list"
+        tools:layout="@layout/fragment_irank_list" />
 </navigation>

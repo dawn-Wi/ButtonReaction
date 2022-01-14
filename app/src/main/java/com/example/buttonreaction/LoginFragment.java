@@ -27,7 +27,6 @@ public class LoginFragment extends Fragment {
     Button login_bt_login;
     Button login_bt_signup;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
