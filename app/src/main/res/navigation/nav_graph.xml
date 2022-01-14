@@ -14,8 +14,8 @@
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_gameActivity"
-            app:destination="@id/gameActivity" />
+            android:id="@+id/action_loginFragment_to_game2Fragment"
+            app:destination="@id/game2Fragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -36,9 +36,9 @@
             android:id="@+id/action_signupFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
-    <activity
-        android:id="@+id/gameActivity"
-        android:name="com.example.buttonreaction.GameActivity"
-        android:label="activity_game"
-        tools:layout="@layout/activity_game" />
+    <fragment
+        android:id="@+id/game2Fragment"
+        android:name="com.example.buttonreaction.Game2Fragment"
+        android:label="fragment_game2"
+        tools:layout="@layout/fragment_game2" />
 </navigation>

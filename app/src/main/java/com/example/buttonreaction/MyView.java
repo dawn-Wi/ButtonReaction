@@ -13,14 +13,16 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 public class MyView extends View {
-    int x,y,r;
+    int x, y, r;
     String str;
-    Path mPath = new Path();
+    private Path mPath;
+//    Path mPath = new Path();
 
     public MyView(Context context) {
         super(context);
         mPath = new Path();
     }
+
     public MyView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
@@ -29,17 +31,29 @@ public class MyView extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setCircleX(int x) { this.x = x; }
+    public void setCircleX(int x) {
+        this.x = x;
+    }
 
-    public void setCircleY(int y) { this.y = y; }
+    public void setCircleY(int y) {
+        this.y = y;
+    }
 
-    public void setCircleR(int r) { this.r = r; }
+    public void setCircleR(int r) {
+        this.r = r;
+    }
 
-    public int getCircleX() { return x; }
+    public int getCircleX() {
+        return x;
+    }
 
-    public int getCircleY() { return y; }
+    public int getCircleY() {
+        return y;
+    }
 
-    public int getCircleR() { return r; }
+    public int getCircleR() {
+        return r;
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -51,21 +65,33 @@ public class MyView extends View {
     }
 
     @Override
-    public boolean onTouchEvent (MotionEvent event){
-        float x= event.getX();
-        float y= event.getY();
-        Log.d("좌표값",(int)x+","+(int)y);
-        Log.d("랜덤값","x좌표값:"+getCircleX()+" y좌표값"+getCircleY());
-        if(((getCircleX()-40<=(int)x)&&((int)x<=getCircleX()+40))||((getCircleY()-40<=(int)y)&&(int)y<=getCircleY()+40)){
-            if (event.getAction()==MotionEvent.ACTION_DOWN){
-                mPath.moveTo(0,0);
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+//        Log.d("좌표값",(int)x+","+(int)y);
+//        Log.d("랜덤값","x좌표값:"+getCircleX()+" y좌표값"+getCircleY());
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (((getCircleX() - 40 <= (int) x) && ((int) x <= getCircleX() + 40))
+                    || ((getCircleY() - 40 <= (int) y) && ((int) y <= getCircleY() + 40))) {
+                Log.d("좌표값", (int) x + "," + (int) y);
+                Log.d("랜덤값", "x좌표값:" + getCircleX() + " y좌표값" + getCircleY());
+                mPath.reset();
+                mPath.moveTo(0, 0);
                 invalidate();
-            }
-            else{
+            } else {
                 Log.d("touch", "뭔가 잘못됨");
             }
-
         }
+//        if(((getCircleX()-40<=(int)x)&&((int)x<=getCircleX()+40))||((getCircleY()-40<=(int)y)&&(int)y<=getCircleY()+40)){
+//            if (event.getAction()==MotionEvent.ACTION_DOWN){
+//                mPath.moveTo(0,0);
+//                invalidate();
+//            }
+//            else{
+//                Log.d("touch", "뭔가 잘못됨");
+//            }
+//
+//        }
         return true;
     }
 }

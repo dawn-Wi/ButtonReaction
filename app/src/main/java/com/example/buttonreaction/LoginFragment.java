@@ -54,8 +54,9 @@ public class LoginFragment extends Fragment {
             @Override
             public void onChanged(Boolean isLoggedIn) {
                 if(isLoggedIn==true){
-                    Intent i = new Intent(requireActivity(), GameActivity.class);
-                    startActivity(i);
+                    NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_game2Fragment);
+//                    Intent i = new Intent(requireActivity(), GameActivity.class);
+//                    startActivity(i);
                 }
             }
         });
