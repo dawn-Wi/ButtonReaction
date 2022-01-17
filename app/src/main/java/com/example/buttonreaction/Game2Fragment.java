@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.SystemClock;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game2Fragment extends Fragment {
-
+    MainViewModel mainViewModel;
     Random random= new Random();
     RealView realview;
     Button game2_bt_start;
@@ -37,6 +38,7 @@ public class Game2Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     }
 
     @Override
@@ -83,36 +85,14 @@ public class Game2Fragment extends Fragment {
                                     Log.d("자 나 몇번째 눌렀지?", "onClick: "+clicknum );
                                     if(clicknum==10){
                                         game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
+                                        game2_chronometer.stop();
+                                        Log.d("기록", "onClick: "+game2_chronometer.getText().toString());
+                                        mainViewModel.saverecode(game2_chronometer.getText().toString());
+                                        //같은 문서 안에 넣고싶은데 아직 안돼
+//                                        mainViewModel.saverecode(game2_chronometer.getText().toString(),SignupFragment.displayname);
                                     }
                             }
                         });
-
-
-//                    game2_iv_bluedot.setVisibility(game2_iv_bluedot.VISIBLE);
-//                    XValue.add(0,random.nextInt(920));
-//                    YValue.add(0,random.nextInt(1170));
-//                    game2_iv_bluedot.setX((int) XValue.get(0));
-//                    game2_iv_bluedot.setY((int) YValue.get(0));
-//
-//                    int realx= (int) (game2_iv_bluedot.getX()+73);
-//                    int realy= (int) (game2_iv_bluedot.getY()-80);
-//                    realview.invalidate();
-//                    Log.d("asdfasdf", "onClick: "+realx+" 이제 y값 "+realy);
-
-
-
-
-//                    for(int i=0;i<10;i++){
-//                        XValue.add(i,random.nextInt(920)+50);
-//                        YValue.add(i,random.nextInt(1170)+70);
-////                        float xvalue = random.nextInt(970)+50;
-////                        float yvalue = random.nextInt(1170)+70;
-//                        game2_iv_bluedot.setX((int) XValue.get(i));
-//                        game2_iv_bluedot.setY((int) YValue.get(i));
-//                        realview.invalidate();
-//                        Log.d("asdfasdf", "onClick: "+game2_iv_bluedot.getX()+" 이제 y값 "+game2_iv_bluedot.getY());
-//                    }
-
                     returnValue=false;
                     game2_bt_start.setEnabled(false);
                     game2_bt_rank.setEnabled(false);
@@ -123,8 +103,6 @@ public class Game2Fragment extends Fragment {
                         game2_chronometer.start();
                         running = true;
                     }
-//                    game2_iv_bluedot.setX(random.nextInt());
-//                    game2_iv_bluedot.setY(random.nextInt());
                 }
             }
         });

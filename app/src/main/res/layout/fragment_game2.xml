@@ -27,8 +27,8 @@
         android:layout_height="60dp"
         android:src="@drawable/bluedot"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="175dp"
-        tools:layout_editor_absoluteY="317dp" />
+        tools:layout_editor_absoluteX="251dp"
+        tools:layout_editor_absoluteY="201dp" />
 
     <Button
         android:id="@+id/game2_bt_start"
