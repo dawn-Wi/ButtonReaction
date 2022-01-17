@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Game2Fragment extends Fragment {
@@ -28,6 +30,9 @@ public class Game2Fragment extends Fragment {
     boolean returnValue = false;
     private boolean running;
     private long pauseOffset;
+    int[] XValue = new int[11];
+    int[] YValue = new int[11];
+    int clicknum=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,17 +67,64 @@ public class Game2Fragment extends Fragment {
                     game2_bt_rank.setEnabled(true);
                 }
                 else if(returnValue==true){
+                    for (int i=0;i<10;i++){
+                        XValue[i]=random.nextInt(920);
+                        YValue[i]=random.nextInt(1170);
+                    }
                     game2_iv_bluedot.setVisibility(game2_iv_bluedot.VISIBLE);
+                        game2_iv_bluedot.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                    game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
+                                    game2_iv_bluedot.setX(XValue[clicknum]);
+                                    game2_iv_bluedot.setY(YValue[clicknum]);
+                                    game2_iv_bluedot.setVisibility(game2_iv_bluedot.VISIBLE);
+                                    clicknum++;
+                                    Log.d("자 나 몇번째 눌렀지?", "onClick: "+clicknum );
+                                    if(clicknum==10){
+                                        game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
+                                    }
+                            }
+                        });
+
+
+//                    game2_iv_bluedot.setVisibility(game2_iv_bluedot.VISIBLE);
+//                    XValue.add(0,random.nextInt(920));
+//                    YValue.add(0,random.nextInt(1170));
+//                    game2_iv_bluedot.setX((int) XValue.get(0));
+//                    game2_iv_bluedot.setY((int) YValue.get(0));
+//
+//                    int realx= (int) (game2_iv_bluedot.getX()+73);
+//                    int realy= (int) (game2_iv_bluedot.getY()-80);
+//                    realview.invalidate();
+//                    Log.d("asdfasdf", "onClick: "+realx+" 이제 y값 "+realy);
+
+
+
+
+//                    for(int i=0;i<10;i++){
+//                        XValue.add(i,random.nextInt(920)+50);
+//                        YValue.add(i,random.nextInt(1170)+70);
+////                        float xvalue = random.nextInt(970)+50;
+////                        float yvalue = random.nextInt(1170)+70;
+//                        game2_iv_bluedot.setX((int) XValue.get(i));
+//                        game2_iv_bluedot.setY((int) YValue.get(i));
+//                        realview.invalidate();
+//                        Log.d("asdfasdf", "onClick: "+game2_iv_bluedot.getX()+" 이제 y값 "+game2_iv_bluedot.getY());
+//                    }
+
                     returnValue=false;
                     game2_bt_start.setEnabled(false);
                     game2_bt_rank.setEnabled(false);
+
+                    //timer 돌아가는거
                     if(!running){
                         game2_chronometer.setBase(SystemClock.elapsedRealtime()-pauseOffset);
                         game2_chronometer.start();
                         running = true;
                     }
-                    game2_iv_bluedot.getX(random.nextInt());
-                    game2_iv_bluedot.getY(random.nextInt());
+//                    game2_iv_bluedot.setX(random.nextInt());
+//                    game2_iv_bluedot.setY(random.nextInt());
                 }
             }
         });
@@ -82,6 +134,7 @@ public class Game2Fragment extends Fragment {
                 NavHostFragment.findNavController(Game2Fragment.this).navigate(R.id.action_game2Fragment_to_rankFragment);
             }
         });
+
     }
 
 }
