@@ -35,23 +35,23 @@ public class UserRepository {
         });
     }
 
-    public void saverecode(final String recode,  final FirebaseDataSource.DataSourceCallback<String> callback) {
-        firebaseDataSource.saverecode(recode, result -> {
-            if(result instanceof Result.Success)
-                callback.onComplete("Success");
-            else
-                callback.onComplete(((Result.Error) result).getError().getMessage());
-        });
-    }
-//같은 문서 안에 넣고싶ㅇ느데 안돼
-//    public void saverecode(final String recode, final String displayname, final FirebaseDataSource.DataSourceCallback<String> callback) {
-//        firebaseDataSource.saverecode(recode,displayname, result -> {
+//    public void saverecode(final String recode,  final FirebaseDataSource.DataSourceCallback<String> callback) {
+//        firebaseDataSource.saverecode(recode, result -> {
 //            if(result instanceof Result.Success)
 //                callback.onComplete("Success");
 //            else
 //                callback.onComplete(((Result.Error) result).getError().getMessage());
 //        });
 //    }
+//같은 문서 안에 넣고싶ㅇ느데 안돼
+    public void saverecode(final String id, final String recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
+        firebaseDataSource.saverecode(id,recode, result -> {
+            if(result instanceof Result.Success)
+                callback.onComplete("Success");
+            else
+                callback.onComplete(((Result.Error) result).getError().getMessage());
+        });
+    }
 
     public void setDataSource(FirebaseDataSource ds)
     {

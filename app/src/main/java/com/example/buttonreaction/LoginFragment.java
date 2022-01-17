@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -40,6 +41,7 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
+
     }
     @Override
     public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState){
@@ -82,6 +84,13 @@ public class LoginFragment extends Fragment {
                 }
                 else{
                     mainViewModel.tryLogin(login_et_email.getText().toString(),login_et_password.getText().toString());
+                    Bundle bundle = new Bundle();
+                    bundle.putString("documentid",login_et_email.getText().toString());
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Game2Fragment game2Fragment = new Game2Fragment();
+                    game2Fragment.setArguments(bundle);
+                    transaction.replace(R.id.frameLayout,game2Fragment);
+                    transaction.commit();
                 }
 
             }

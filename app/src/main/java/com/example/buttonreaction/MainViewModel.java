@@ -36,8 +36,8 @@ public class MainViewModel extends ViewModel {
         });
     }
 
-    public void saverecode(String recode){
-        userRepository.saverecode(recode, result->{
+    public void saverecode(String id, String recode){
+        userRepository.saverecode(id,recode, result->{
             if(result.equals("Success"))
             {
                 Log.d("DEBUG", "Register Success");

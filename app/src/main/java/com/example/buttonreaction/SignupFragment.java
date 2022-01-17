@@ -19,11 +19,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignupFragment extends Fragment {
-    public static String displayname;
+
     MainViewModel mainViewModel;
-    static EditText signup_et_name;
+    EditText signup_et_name;
     EditText signup_et_phone;
-    EditText signup_et_email;
+    static EditText signup_et_email;
     EditText signup_et_password;
     Button signup_bt_go;
 
@@ -71,7 +71,6 @@ public class SignupFragment extends Fragment {
                 }
                 else{
                     mainViewModel.tryRegister(signup_et_email.getText().toString(),signup_et_password.getText().toString(), signup_et_name.getText().toString());
-                    displayname = signup_et_name.getText().toString();
                     NavHostFragment.findNavController(SignupFragment.this).navigate(R.id.action_signupFragment_to_loginFragment);
                 }
             }

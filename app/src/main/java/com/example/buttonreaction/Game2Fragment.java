@@ -34,11 +34,13 @@ public class Game2Fragment extends Fragment {
     int[] XValue = new int[11];
     int[] YValue = new int[11];
     int clicknum=0;
+    private String documentid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
     }
 
     @Override
@@ -86,8 +88,12 @@ public class Game2Fragment extends Fragment {
                                     if(clicknum==10){
                                         game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
                                         game2_chronometer.stop();
-                                        Log.d("기록", "onClick: "+game2_chronometer.getText().toString());
-                                        mainViewModel.saverecode(game2_chronometer.getText().toString());
+//                                        Log.d("기록", SignupFragment.signup_et_email.getText().toString()+"onClick: "+game2_chronometer.getText().toString());
+                                        if(getArguments() != null){
+                                            documentid = getArguments().getString("documentid");
+                                            Log.d("기록", documentid+"onClick: ");
+                                        }
+//                                        mainViewModel.saverecode(SignupFragment.signup_et_email.getText().toString(),game2_chronometer.getText().toString());
                                         //같은 문서 안에 넣고싶은데 아직 안돼
 //                                        mainViewModel.saverecode(game2_chronometer.getText().toString(),SignupFragment.displayname);
                                     }

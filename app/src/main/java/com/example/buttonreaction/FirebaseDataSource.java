@@ -12,6 +12,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
@@ -22,6 +23,7 @@ import javax.sql.DataSource;
 
 public class FirebaseDataSource {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static String documentid;
 
     public void tryLogin(String id, String password, DataSourceCallback<Result> callback){
         db.collection("users")
@@ -31,6 +33,10 @@ public class FirebaseDataSource {
                 .addOnCompleteListener(task->{
                     if(task.isSuccessful()){
                         Log.d("datasource", "onSuccess: firestore finish");
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            documentid = document.getId();
+                            Log.d("id", document.getId());
+                        }
                         callback.onComplete(new Result.Success<String>("Success"));
                     }
                     else{
@@ -47,7 +53,7 @@ public class FirebaseDataSource {
         user.put("Name", displayname);
 
         db.collection("users")
-                .document(displayname)
+                .document(id)
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -79,20 +85,31 @@ public class FirebaseDataSource {
         user.put("userId",id);
         user.put("recode", recode);
 
-        //db.collection("users").whereEqualTo("userId", userId).
+
+//        db.collection("users").whereEqualTo("userId", id).get()
 //        db.collection("users").document("test3").update("records", )
 
 
         db.collection("users")
-
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document("recode")
+                .set(user, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void unused) {
                         Log.d("datasource", "onSuccess: firestore finish");
                         callback.onComplete(new Result.Success<String>("Success"));
                     }
                 })
+
+
+//                .add(user)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d("datasource", "onSuccess: firestore finish");
+//                        callback.onComplete(new Result.Success<String>("Success"));
+//                    }
+//                })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
