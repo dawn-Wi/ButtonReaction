@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -34,7 +35,7 @@ public class Game2Fragment extends Fragment {
     int[] XValue = new int[11];
     int[] YValue = new int[11];
     int clicknum=0;
-    private String documentid;
+    String documentid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,10 +90,20 @@ public class Game2Fragment extends Fragment {
                                         game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
                                         game2_chronometer.stop();
 //                                        Log.d("기록", SignupFragment.signup_et_email.getText().toString()+"onClick: "+game2_chronometer.getText().toString());
-                                        if(getArguments() != null){
-                                            documentid = getArguments().getString("documentid");
-                                            Log.d("기록", documentid+"onClick: ");
-                                        }
+//                                        if(getArguments() != null){
+//                                            documentid = getArguments().getString("documentid");
+//                                            Log.d("기록", documentid+"onClick: ");
+//                                        }
+                                        mainViewModel.getName().observe(getViewLifecycleOwner(), new Observer<String>() {
+                                            @Override
+                                            public void onChanged(String s) {
+                                                if(s!=null){
+                                                    documentid=s;
+                                                }
+                                            }
+                                        });
+//                                        Log.d("기록", "onClick: " + documentid + "ㅁㅇㄻㄴㅇㄹ"+ game2_chronometer.getText().toString());
+                                        mainViewModel.saverecode(documentid,game2_chronometer.getText().toString());
 //                                        mainViewModel.saverecode(SignupFragment.signup_et_email.getText().toString(),game2_chronometer.getText().toString());
                                         //같은 문서 안에 넣고싶은데 아직 안돼
 //                                        mainViewModel.saverecode(game2_chronometer.getText().toString(),SignupFragment.displayname);

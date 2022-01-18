@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 public class MainViewModel extends ViewModel {
     private UserRepository userRepository = UserRepository.getInstance();
     private MutableLiveData<Boolean> loggedIn = new MutableLiveData<>(false);
+    private MutableLiveData<String> loggedname = new MutableLiveData<>();
 
     public void tryRegister(String id, String password, String displayname){
         userRepository.tryRegister(id, password, displayname, result->{
@@ -47,6 +48,13 @@ public class MainViewModel extends ViewModel {
                 Log.d("DEBUG", "Register Failed");
             }
         });
+    }
+
+    public LiveData<String> getName(){
+        return loggedname;
+    }
+    public void setName(String name){
+        loggedname.setValue(name);
     }
 
     //같은 문서 안에 넣고싶은데 안돼
