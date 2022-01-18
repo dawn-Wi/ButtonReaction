@@ -12,9 +12,36 @@ public class MainViewModel extends ViewModel {
     private UserRepository userRepository = UserRepository.getInstance();
     private MutableLiveData<Boolean> loggedIn = new MutableLiveData<>(false);
     private MutableLiveData<String> loggedname = new MutableLiveData<>();
+    private MutableLiveData<Boolean> registerSuccess = new MutableLiveData<>();
+    private MutableLiveData<Boolean> doingWork = new MutableLiveData<>(false);
 
     public void tryRegister(String id, String password, String displayname){
+        doingWork.setValue(true);
         userRepository.tryRegister(id, password, displayname, result->{
+            if(result.equals("Success"))
+            {
+                registerSuccess.postValue(true);
+                Log.d("DEBUG", "Register Success");
+            }
+            else
+            {
+                registerSuccess.postValue(false);
+                Log.d("DEBUG", "Register Failed");
+            }
+            doingWork.postValue(false);
+        });
+    }
+    public void tryLogin(String id, String password) {
+        doingWork.setValue(true);
+        userRepository.tryLogin(id, password, result ->{
+            if(result.equals("Success"))
+                loggedIn.postValue(true);
+            doingWork.postValue(false);
+        });
+    }
+
+    public void savemyrecode(String id, String recode){
+        userRepository.savemyrecode(id,recode, result->{
             if(result.equals("Success"))
             {
                 Log.d("DEBUG", "Register Success");
@@ -25,20 +52,9 @@ public class MainViewModel extends ViewModel {
             }
         });
     }
-    public void tryLogin(String id, String password) {
-        userRepository.tryLogin(id, password, result ->{
-            if(result.equals("Success")){
-                Log.d("viewmodel", "tryLogin: success");
-                loggedIn.postValue(true);
-            }
-            else{
-                Log.d("viewmodel", "tryLogin: fail");
-            }
-        });
-    }
 
-    public void saverecode(String id, String recode){
-        userRepository.saverecode(id,recode, result->{
+    public void totalrecodes(String id, String recode){
+        userRepository.totalrecodes(id,recode, result->{
             if(result.equals("Success"))
             {
                 Log.d("DEBUG", "Register Success");
@@ -57,19 +73,7 @@ public class MainViewModel extends ViewModel {
         loggedname.setValue(name);
     }
 
-    //같은 문서 안에 넣고싶은데 안돼
-//    public void saverecode(String recode,String displayname){
-//        userRepository.saverecode(recode, displayname, result->{
-//            if(result.equals("Success"))
-//            {
-//                Log.d("DEBUG", "Register Success");
-//            }
-//            else
-//            {
-//                Log.d("DEBUG", "Register Failed");
-//            }
-//        });
-//    }
-
+    public LiveData<Boolean> getDoingWork(){return doingWork;}
     public LiveData<Boolean> isLoggedIn(){return loggedIn;}
+    public LiveData<Boolean> registerSuccess(){return registerSuccess;}
 }

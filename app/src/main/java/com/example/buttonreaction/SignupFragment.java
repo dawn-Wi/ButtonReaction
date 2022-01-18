@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -71,7 +72,27 @@ public class SignupFragment extends Fragment {
                 }
                 else{
                     mainViewModel.tryRegister(signup_et_email.getText().toString(),signup_et_password.getText().toString(), signup_et_name.getText().toString());
-                    NavHostFragment.findNavController(SignupFragment.this).navigate(R.id.action_signupFragment_to_loginFragment);
+
+                }
+            }
+        });
+
+        mainViewModel.registerSuccess().observe(getViewLifecycleOwner(), new Observer<Boolean>()
+        {
+            @Override
+            public void onChanged(Boolean registersuccessing)
+            {
+                if(registersuccessing == true)
+                {
+                    //성공시 LoginFragment로 돌아가기
+                     NavHostFragment.findNavController(SignupFragment.this).navigate(R.id.action_signupFragment_to_loginFragment);
+                }
+                else
+                {
+                    Toast.makeText(getActivity().getApplicationContext(), "fail", Toast.LENGTH_SHORT).show();
+                    //username,password초기화
+                    signup_et_email.setText(null);
+                    signup_et_password.setText(null);
                 }
             }
         });

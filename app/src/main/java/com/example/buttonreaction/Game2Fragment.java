@@ -76,7 +76,10 @@ public class Game2Fragment extends Fragment {
                         XValue[i]=random.nextInt(920);
                         YValue[i]=random.nextInt(1170);
                     }
+                    game2_iv_bluedot.setX(XValue[0]);
+                    game2_iv_bluedot.setY(YValue[0]);
                     game2_iv_bluedot.setVisibility(game2_iv_bluedot.VISIBLE);
+//                    clicknum++;
                         game2_iv_bluedot.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -103,10 +106,8 @@ public class Game2Fragment extends Fragment {
                                             }
                                         });
 //                                        Log.d("기록", "onClick: " + documentid + "ㅁㅇㄻㄴㅇㄹ"+ game2_chronometer.getText().toString());
-                                        mainViewModel.saverecode(documentid,game2_chronometer.getText().toString());
-//                                        mainViewModel.saverecode(SignupFragment.signup_et_email.getText().toString(),game2_chronometer.getText().toString());
-                                        //같은 문서 안에 넣고싶은데 아직 안돼
-//                                        mainViewModel.saverecode(game2_chronometer.getText().toString(),SignupFragment.displayname);
+                                        mainViewModel.savemyrecode(documentid,game2_chronometer.getText().toString());
+                                        mainViewModel.totalrecodes(documentid,game2_chronometer.getText().toString());
                                     }
                             }
                         });

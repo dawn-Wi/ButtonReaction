@@ -43,9 +43,17 @@ public class UserRepository {
 //                callback.onComplete(((Result.Error) result).getError().getMessage());
 //        });
 //    }
-//같은 문서 안에 넣고싶ㅇ느데 안돼
-    public void saverecode(final String id, final String recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
-        firebaseDataSource.saverecode(id,recode, result -> {
+    public void savemyrecode(final String id, final String recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
+        firebaseDataSource.savemyrecode(id,recode, result -> {
+            if(result instanceof Result.Success)
+                callback.onComplete("Success");
+            else
+                callback.onComplete(((Result.Error) result).getError().getMessage());
+        });
+    }
+
+    public void totalrecodes(final String id, final String recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
+        firebaseDataSource.totalrecodes(id,recode, result -> {
             if(result instanceof Result.Success)
                 callback.onComplete("Success");
             else

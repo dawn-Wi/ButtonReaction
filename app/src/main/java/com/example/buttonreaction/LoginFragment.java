@@ -51,13 +51,32 @@ public class LoginFragment extends Fragment {
         login_bt_login = view.findViewById(R.id.login_bt_login);
         login_bt_signup = view.findViewById(R.id.login_bt_signup);
 
+        mainViewModel.getDoingWork().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isWorking) {
+                if(isWorking==true){
+                    login_bt_login.setEnabled(false);
+                    login_bt_signup.setEnabled(false);
+                    login_et_email.setEnabled(false);
+                    login_et_password.setEnabled(false);
+                }else{
+                    login_bt_login.setEnabled(true);
+                    login_bt_signup.setEnabled(true);
+                    login_et_email.setEnabled(true);
+                    login_et_password.setEnabled(true);
+                    login_et_email.setText(null);
+                    login_et_password.setText(null);
+                    //Toast.makeText(getActivity().getApplicationContext(), "Login failed Try again",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
         mainViewModel.isLoggedIn().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean isLoggedIn) {
                 if(isLoggedIn==true){
                     NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_game2Fragment);
-//                    Intent i = new Intent(requireActivity(), GameActivity.class);
-//                    startActivity(i);
                 }
             }
         });
@@ -84,17 +103,8 @@ public class LoginFragment extends Fragment {
                 }
                 else{
                     mainViewModel.tryLogin(login_et_email.getText().toString(),login_et_password.getText().toString());
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("documentid",login_et_email.getText().toString());
-//                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                    Game2Fragment game2Fragment = new Game2Fragment();
-//                    game2Fragment.setArguments(bundle);
-//                    transaction.replace(R.id.frameLayout,game2Fragment);
-//                    transaction.commit();
-
                     mainViewModel.setName(login_et_email.getText().toString());
                 }
-
             }
         });
 

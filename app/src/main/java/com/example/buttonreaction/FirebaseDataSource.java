@@ -23,7 +23,6 @@ import javax.sql.DataSource;
 
 public class FirebaseDataSource {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public static String documentid;
 
     public void tryLogin(String id, String password, DataSourceCallback<Result> callback){
         db.collection("users")
@@ -33,10 +32,6 @@ public class FirebaseDataSource {
                 .addOnCompleteListener(task->{
                     if(task.isSuccessful()){
                         Log.d("datasource", "onSuccess: firestore finish");
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            documentid = document.getId();
-                            Log.d("id", document.getId());
-                        }
                         callback.onComplete(new Result.Success<String>("Success"));
                     }
                     else{
@@ -109,8 +104,7 @@ public class FirebaseDataSource {
 //                });
 //
 //    }
-//같은 문서 안에 넣고 싶은데 안돼
-    public void saverecode(String id, String recode, DataSourceCallback<Result> callback){
+    public void savemyrecode(String id, String recode, DataSourceCallback<Result> callback){
         Map<String, Object> user = new HashMap<>();
         user.put("recode", recode);
 
@@ -132,6 +126,34 @@ public class FirebaseDataSource {
                         callback.onComplete(new Result.Error(new Exception("Failed")));
                     }
                 });
+
+    }
+
+    public void totalrecodes(String id, String recode, DataSourceCallback<Result> callback){
+        Map<String, Object> user = new HashMap<>();
+        user.put("userId", id);
+        user.put("recode", recode);
+        db.collection("users")
+                .document("totalrecodes")
+                .update(
+                        id+"userId",id, id+"recode",recode
+                );
+
+//                .set(user)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        Log.d("datasource", "onSuccess: firestore finish");
+//                        callback.onComplete(new Result.Success<String>("Success"));
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.d("datasource", "onSuccess: firestore not finish");
+//                        callback.onComplete(new Result.Error(new Exception("Failed")));
+//                    }
+//                });
 
     }
 
