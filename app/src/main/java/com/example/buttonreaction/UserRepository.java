@@ -35,22 +35,15 @@ public class UserRepository {
         });
     }
 
-//    public void saverecode(final String recode,  final FirebaseDataSource.DataSourceCallback<String> callback) {
-//        firebaseDataSource.saverecode(recode, result -> {
+
+//    public void savemyrecode(final String id, final String recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
+//        firebaseDataSource.savemyrecode(id,recode, result -> {
 //            if(result instanceof Result.Success)
 //                callback.onComplete("Success");
 //            else
 //                callback.onComplete(((Result.Error) result).getError().getMessage());
 //        });
 //    }
-    public void savemyrecode(final String id, final String recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
-        firebaseDataSource.savemyrecode(id,recode, result -> {
-            if(result instanceof Result.Success)
-                callback.onComplete("Success");
-            else
-                callback.onComplete(((Result.Error) result).getError().getMessage());
-        });
-    }
 
     public void totalrecodes(final String id, final String recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
         firebaseDataSource.totalrecodes(id,recode, result -> {

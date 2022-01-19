@@ -106,7 +106,7 @@ public class Game2Fragment extends Fragment {
                                             }
                                         });
 //                                        Log.d("기록", "onClick: " + documentid + "ㅁㅇㄻㄴㅇㄹ"+ game2_chronometer.getText().toString());
-                                        mainViewModel.savemyrecode(documentid,game2_chronometer.getText().toString());
+//                                        mainViewModel.savemyrecode(documentid,game2_chronometer.getText().toString());
                                         mainViewModel.totalrecodes(documentid,game2_chronometer.getText().toString());
                                     }
                             }

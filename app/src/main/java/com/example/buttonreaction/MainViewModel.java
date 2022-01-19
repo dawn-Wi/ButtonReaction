@@ -40,18 +40,18 @@ public class MainViewModel extends ViewModel {
         });
     }
 
-    public void savemyrecode(String id, String recode){
-        userRepository.savemyrecode(id,recode, result->{
-            if(result.equals("Success"))
-            {
-                Log.d("DEBUG", "Register Success");
-            }
-            else
-            {
-                Log.d("DEBUG", "Register Failed");
-            }
-        });
-    }
+//    public void savemyrecode(String id, String recode){
+//        userRepository.savemyrecode(id,recode, result->{
+//            if(result.equals("Success"))
+//            {
+//                Log.d("DEBUG", "Register Success");
+//            }
+//            else
+//            {
+//                Log.d("DEBUG", "Register Failed");
+//            }
+//        });
+//    }
 
     public void totalrecodes(String id, String recode){
         userRepository.totalrecodes(id,recode, result->{

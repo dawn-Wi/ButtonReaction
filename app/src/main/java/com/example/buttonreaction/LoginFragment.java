@@ -77,6 +77,7 @@ public class LoginFragment extends Fragment {
             public void onChanged(Boolean isLoggedIn) {
                 if(isLoggedIn==true){
                     NavHostFragment.findNavController(LoginFragment.this).navigate(R.id.action_loginFragment_to_game2Fragment);
+                    mainViewModel.setName(login_et_email.getText().toString());
                 }
             }
         });
@@ -103,7 +104,6 @@ public class LoginFragment extends Fragment {
                 }
                 else{
                     mainViewModel.tryLogin(login_et_email.getText().toString(),login_et_password.getText().toString());
-                    mainViewModel.setName(login_et_email.getText().toString());
                 }
             }
         });
