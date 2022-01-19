@@ -1,62 +1,66 @@
 package com.example.buttonreaction;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.buttonreaction.databinding.ObjectRankBinding;
 import com.example.buttonreaction.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.buttonreaction.databinding.FragmentRankBinding;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyrankRecyclerViewAdapter extends RecyclerView.Adapter<MyrankRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    private final List<Record> rankList;
+    private MainViewModel mainViewModel;
 
-    public MyrankRecyclerViewAdapter(List<PlaceholderItem> items) {
-        mValues = items;
+    public MyrankRecyclerViewAdapter(List<Record> items, MainViewModel mvm)
+    {
+        rankList = items;
+        mainViewModel = mvm;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        return new ViewHolder(FragmentRankBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        return new ViewHolder(ObjectRankBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+    public void onBindViewHolder(final ViewHolder holder, int position)
+    {
+        holder.name.setText(rankList.get(position).getUserId());
+        holder.content.setText(rankList.get(position).getRecord());
     }
 
     @Override
-    public int getItemCount() {
-        return mValues.size();
+    public int getItemCount()
+    {
+        return rankList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public PlaceholderItem mItem;
+    public class ViewHolder extends RecyclerView.ViewHolder
+    {
+        public final TextView name;
+        public final TextView content;
 
-        public ViewHolder(FragmentRankBinding binding) {
+        public ViewHolder(ObjectRankBinding binding)
+        {
             super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+            name = binding.rankTvUserId;
+            content = binding.rankTvRecode;
         }
 
         @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+        public String toString()
+        {
+            return super.toString() + " '" + content.getText() + "'";
         }
     }
 }

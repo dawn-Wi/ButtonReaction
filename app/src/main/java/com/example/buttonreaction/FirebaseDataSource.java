@@ -19,6 +19,7 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -26,24 +27,23 @@ import javax.sql.DataSource;
 public class FirebaseDataSource {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public void tryLogin(String id, String password, DataSourceCallback<Result> callback){
+    public void tryLogin(String id, String password, DataSourceCallback<Result> callback) {
         db.collection("users")
-                .whereEqualTo("userId",id)
-                .whereEqualTo("Password",password)
+                .whereEqualTo("userId", id)
+                .whereEqualTo("Password", password)
                 .get()
-                .addOnCompleteListener(task->{
-                    if(task.isSuccessful()){
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
                         Log.d("datasource", "onSuccess: firestore finish");
                         callback.onComplete(new Result.Success<String>("Success"));
-                    }
-                    else{
+                    } else {
                         Log.d("datasource", "onSuccess: firestore not finish");
                         callback.onComplete(new Result.Error(task.getException()));
                     }
                 });
     }
 
-    public void tryRegister(String id, String password, String displayname, DataSourceCallback<Result> callback){
+    public void tryRegister(String id, String password, String displayname, DataSourceCallback<Result> callback) {
         Map<String, Object> user = new HashMap<>();
         user.put("userId", id);
         user.put("Password", password);
@@ -77,35 +77,6 @@ public class FirebaseDataSource {
 
     }
 
-//    public void saverecode(String id, String recode, DataSourceCallback<Result> callback){
-//        Map<String, Object> user = new HashMap<>();
-//        user.put("userId",id);
-//        user.put("recode", recode);
-//
-//
-////        db.collection("users").whereEqualTo("userId", id).get()
-////        db.collection("users").document("test3").update("records", )
-//
-//
-//        db.collection("users")
-//                .document("recode")
-//                .set(user, SetOptions.merge())
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        Log.d("datasource", "onSuccess: firestore finish");
-//                        callback.onComplete(new Result.Success<String>("Success"));
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.d("datasource", "onSuccess: firestore not finish");
-//                        callback.onComplete(new Result.Error(new Exception("Failed")));
-//                    }
-//                });
-//
-//    }
 //    public void savemyrecode(String id, String recode, DataSourceCallback<Result> callback){
 //        Map<String, Object> user = new HashMap<>();
 //        user.put("recode", recode);
@@ -131,38 +102,39 @@ public class FirebaseDataSource {
 //
 //    }
 
-    public void totalrecodes(String id, String recode, DataSourceCallback<Result> callback){
+    public void totalrecodes(String id, String recode, DataSourceCallback<Result> callback) {
 //        Map<String, Object> user = new HashMap<>();
-        ArrayList<Map<String,Object>> user = new ArrayList<Map<String,Object>>();
-        HashMap<String,Object> map = new HashMap<String,Object>();
+        ArrayList<Map<String, Object>> user = new ArrayList<Map<String, Object>>();
+        HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("userId", id);
-        map.put("recode", recode);
+        map.put("record", recode);
 
-        db.collection("users")
-                .document("totalrecodes")
-                .update(
-                        "recodes", FieldValue.arrayUnion(map)
-                );
-
-//                .set(user)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        Log.d("datasource", "onSuccess: firestore finish");
-//                        callback.onComplete(new Result.Success<String>("Success"));
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.d("datasource", "onSuccess: firestore not finish");
-//                        callback.onComplete(new Result.Error(new Exception("Failed")));
-//                    }
-//                });
-
+        db.collection("totalrecords")
+                .add(map);
     }
 
-    public interface DataSourceCallback<T>{
+    public void getRecords(DataSourceCallback<Result> callback) {
+        List<Record> toReturn = new ArrayList<>();
+        db.collection("totalrecords")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<DocumentSnapshot> snaps = task.getResult().getDocuments();
+                        for(int i=0;i<snaps.size();i++){
+                            Record toAdd = new Record( snaps.get(i).getString("record"), snaps.get(i).getString("userId"));
+                            toReturn.add(toAdd);
+                        }
+                        Log.d("datasource", "onSuccess: firestore finish");
+                        callback.onComplete(new Result.Success<List<Record>>(toReturn));
+
+                    } else {
+                        Log.d("datasource", "onSuccess: firestore not finish");
+                        callback.onComplete(new Result.Error(task.getException()));
+                    }
+                });
+    }
+
+    public interface DataSourceCallback<T> {
         void onComplete(T result);
     }
 

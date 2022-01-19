@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/rankFragment"
-        android:name="com.example.buttonreaction.rankFragment"
+        android:name="com.example.buttonreaction.RankFragment"
         android:label="fragment_irank_list"
-        tools:layout="@layout/fragment_irank_list" />
+        tools:layout="@layout/fragment_rank_list" />
 </navigation>

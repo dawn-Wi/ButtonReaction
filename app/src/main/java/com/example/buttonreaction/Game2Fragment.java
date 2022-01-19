@@ -16,9 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Game2Fragment extends Fragment {
@@ -60,6 +58,15 @@ public class Game2Fragment extends Fragment {
         game2_chronometer = view.findViewById(R.id.game2_chronometer);
         game2_chronometer.setFormat("시간: %s");
 
+        mainViewModel.recordsLoaded().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean loaded) {
+                if(loaded==true){
+                    NavHostFragment.findNavController(Game2Fragment.this).navigate(R.id.action_game2Fragment_to_rankFragment);
+                }
+            }
+        });
+
         game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
 
         game2_bt_start.setOnClickListener(new View.OnClickListener() {
@@ -72,14 +79,14 @@ public class Game2Fragment extends Fragment {
                     game2_bt_rank.setEnabled(true);
                 }
                 else if(returnValue==true){
-                    for (int i=0;i<10;i++){
-                        XValue[i]=random.nextInt(920);
-                        YValue[i]=random.nextInt(1170);
+                    for (int i=0;i<11;i++){
+                        XValue[i]=random.nextInt(920)+50;
+                        YValue[i]=random.nextInt(1100)+100;
                     }
                     game2_iv_bluedot.setX(XValue[0]);
                     game2_iv_bluedot.setY(YValue[0]);
+                    clicknum++;
                     game2_iv_bluedot.setVisibility(game2_iv_bluedot.VISIBLE);
-//                    clicknum++;
                         game2_iv_bluedot.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -89,9 +96,10 @@ public class Game2Fragment extends Fragment {
                                     game2_iv_bluedot.setVisibility(game2_iv_bluedot.VISIBLE);
                                     clicknum++;
                                     Log.d("자 나 몇번째 눌렀지?", "onClick: "+clicknum );
-                                    if(clicknum==10){
+                                    if(clicknum==11){
                                         game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
                                         game2_chronometer.stop();
+                                        game2_bt_rank.setEnabled(true);
 //                                        Log.d("기록", SignupFragment.signup_et_email.getText().toString()+"onClick: "+game2_chronometer.getText().toString());
 //                                        if(getArguments() != null){
 //                                            documentid = getArguments().getString("documentid");
@@ -127,7 +135,9 @@ public class Game2Fragment extends Fragment {
         game2_bt_rank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(Game2Fragment.this).navigate(R.id.action_game2Fragment_to_rankFragment);
+
+                mainViewModel.loadRecords();
+
             }
         });
 

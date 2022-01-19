@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.example.buttonreaction.FirebaseDataSource;
 
+import java.util.List;
+
 public class UserRepository {
     private static volatile UserRepository INSTANCE = new UserRepository();
 
@@ -54,12 +56,19 @@ public class UserRepository {
         });
     }
 
+    public void getRecords(final UserRepositoryCallback callback){
+        firebaseDataSource.getRecords(result -> {
+            if(result instanceof Result.Success)
+                callback.onComplete(result);
+        });
+    }
+
     public void setDataSource(FirebaseDataSource ds)
     {
         this.firebaseDataSource = ds;
     }
     public interface UserRepositoryCallback<T>
     {
-        void onComplete(String result);
+        void onComplete(Result result);
     }
 }

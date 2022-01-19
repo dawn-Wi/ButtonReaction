@@ -8,12 +8,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
 public class MainViewModel extends ViewModel {
     private UserRepository userRepository = UserRepository.getInstance();
     private MutableLiveData<Boolean> loggedIn = new MutableLiveData<>(false);
     private MutableLiveData<String> loggedname = new MutableLiveData<>();
     private MutableLiveData<Boolean> registerSuccess = new MutableLiveData<>();
     private MutableLiveData<Boolean> doingWork = new MutableLiveData<>(false);
+    private MutableLiveData<Boolean> recordsLoaded = new MutableLiveData<>(false);
+    private List<Record> recordList;
 
     public void tryRegister(String id, String password, String displayname){
         doingWork.setValue(true);
@@ -66,6 +70,17 @@ public class MainViewModel extends ViewModel {
         });
     }
 
+    public void loadRecords()
+    {
+        userRepository.getRecords(result -> {
+            if(result instanceof Result.Success){
+                recordList = ((Result.Success<List<Record>>)result).getData();
+                recordsLoaded.setValue(true);
+            }
+        });
+    }
+
+
     public LiveData<String> getName(){
         return loggedname;
     }
@@ -73,7 +88,12 @@ public class MainViewModel extends ViewModel {
         loggedname.setValue(name);
     }
 
+    public List<Record> getRecordList() {
+        return recordList;
+    }
+
     public LiveData<Boolean> getDoingWork(){return doingWork;}
     public LiveData<Boolean> isLoggedIn(){return loggedIn;}
     public LiveData<Boolean> registerSuccess(){return registerSuccess;}
+    public LiveData<Boolean> recordsLoaded(){return recordsLoaded;}
 }
