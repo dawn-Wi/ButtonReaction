@@ -74,7 +74,10 @@ public class MainViewModel extends ViewModel {
     {
         userRepository.getRecords(result -> {
             if(result instanceof Result.Success){
-                recordList = ((Result.Success<List<Record>>)result).getData();
+                List<Record> resultList = ((Result.Success<List<Record>>)result).getData();
+
+                // resultList 에서 평균 계산 -> recordList
+
                 recordsLoaded.setValue(true);
             }
         });
