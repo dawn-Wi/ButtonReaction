@@ -47,7 +47,7 @@ public class UserRepository {
 //        });
 //    }
 
-    public void totalrecodes(final String id, final String recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
+    public void totalrecodes(final String id, final float recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
         firebaseDataSource.totalrecodes(id,recode, result -> {
             if(result instanceof Result.Success)
                 callback.onComplete("Success");

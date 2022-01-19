@@ -102,7 +102,7 @@ public class FirebaseDataSource {
 //
 //    }
 
-    public void totalrecodes(String id, String recode, DataSourceCallback<Result> callback) {
+    public void totalrecodes(String id, float recode, DataSourceCallback<Result> callback) {
 //        Map<String, Object> user = new HashMap<>();
         ArrayList<Map<String, Object>> user = new ArrayList<Map<String, Object>>();
         HashMap<String, Object> map = new HashMap<String, Object>();

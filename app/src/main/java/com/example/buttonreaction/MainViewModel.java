@@ -8,7 +8,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainViewModel extends ViewModel {
     private UserRepository userRepository = UserRepository.getInstance();
@@ -57,7 +59,7 @@ public class MainViewModel extends ViewModel {
 //        });
 //    }
 
-    public void totalrecodes(String id, String recode){
+    public void totalrecodes(String id, float recode){
         userRepository.totalrecodes(id,recode, result->{
             if(result.equals("Success"))
             {
@@ -74,9 +76,12 @@ public class MainViewModel extends ViewModel {
     {
         userRepository.getRecords(result -> {
             if(result instanceof Result.Success){
-                List<Record> resultList = ((Result.Success<List<Record>>)result).getData();
+                //List<Record> resultList = ((Result.Success<List<Record>>)result).getData();
+               recordList = ((Result.Success<List<Record>>)result).getData(); //선물 포장 뜯은거
+                Map<String, Float> myMap = new HashMap<String, Float>();
 
                 // resultList 에서 평균 계산 -> recordList
+//                Log.d("Asdfasdfasdfa", "loadRecords: "+resultList);
 
                 recordsLoaded.setValue(true);
             }

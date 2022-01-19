@@ -56,7 +56,7 @@ public class Game2Fragment extends Fragment {
         game2_bt_start = view.findViewById(R.id.game2_bt_start);
         game2_bt_rank = view.findViewById(R.id.game2_bt_rank);
         game2_chronometer = view.findViewById(R.id.game2_chronometer);
-        game2_chronometer.setFormat("시간: %s");
+        game2_chronometer.setFormat("%s");
 
         mainViewModel.recordsLoaded().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
@@ -115,7 +115,7 @@ public class Game2Fragment extends Fragment {
                                         });
 //                                        Log.d("기록", "onClick: " + documentid + "ㅁㅇㄻㄴㅇㄹ"+ game2_chronometer.getText().toString());
 //                                        mainViewModel.savemyrecode(documentid,game2_chronometer.getText().toString());
-                                        mainViewModel.totalrecodes(documentid,game2_chronometer.getText().toString());
+                                        mainViewModel.totalrecodes(documentid,Float.parseFloat(game2_chronometer.getText().toString()));
                                     }
                             }
                         });
@@ -135,9 +135,7 @@ public class Game2Fragment extends Fragment {
         game2_bt_rank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 mainViewModel.loadRecords();
-
             }
         });
 
