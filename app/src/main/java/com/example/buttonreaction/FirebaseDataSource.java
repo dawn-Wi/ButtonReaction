@@ -104,7 +104,7 @@ public class FirebaseDataSource {
 
     }
 
-    public void totalrecodes(String id, int record, DataSourceCallback<Result> callback) {
+    public void sendRecord(String id, int record, DataSourceCallback<Result> callback) {
 //        Map<String, Object> user = new HashMap<>();
         ArrayList<Map<String, Object>> user = new ArrayList<Map<String, Object>>();
         HashMap<String, Object> map = new HashMap<String, Object>();

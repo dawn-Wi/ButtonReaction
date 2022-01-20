@@ -65,5 +65,14 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="211dp" />
 
+    <Button
+        android:id="@+id/game2_bt_logout"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="logout"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

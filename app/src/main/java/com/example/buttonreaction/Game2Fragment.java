@@ -21,18 +21,18 @@ import java.util.Random;
 
 public class Game2Fragment extends Fragment {
     MainViewModel mainViewModel;
-    Random random= new Random();
+    Random random = new Random();
     RealView realview;
     Button game2_bt_start;
     Button game2_bt_rank;
     ImageView game2_iv_bluedot;
     Chronometer game2_chronometer;
     boolean returnValue = false;
-    private boolean running;
+    private boolean running = false;
     private long pauseOffset;
     int[] XValue = new int[11];
     int[] YValue = new int[11];
-    int clicknum=0;
+    int clicknum = 0;
     String documentid;
 
     @Override
@@ -48,8 +48,9 @@ public class Game2Fragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game2, container, false);
     }
+
     @Override
-    public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState){
+    public void onViewCreated(@NonNull View view, @NonNull Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         realview = view.findViewById(R.id.realview);
         game2_iv_bluedot = view.findViewById(R.id.game2_iv_bluedot);
@@ -64,59 +65,59 @@ public class Game2Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //TODO: What's this?
-                if(returnValue==true){
+                if (returnValue == true) {
                     game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
-                    returnValue=true;
+                    returnValue = true;
                     game2_bt_start.setEnabled(true);
                     game2_bt_rank.setEnabled(true);
-                }
-                else if(returnValue==false){
-                    for (int i=0;i<11;i++){
+                } else if (returnValue == false) {
+                    for (int i = 0; i < 11; i++) {
                         //TODO: Different screen sizes?
-                        XValue[i]=random.nextInt(900)+60;
-                        YValue[i]=random.nextInt(1050)+150;
+                        XValue[i] = random.nextInt(900) + 60;
+                        YValue[i] = random.nextInt(1050) + 150;
                     }
                     game2_iv_bluedot.setX(XValue[0]);
                     game2_iv_bluedot.setY(YValue[0]);
                     clicknum++;
                     game2_iv_bluedot.setVisibility(game2_iv_bluedot.VISIBLE);
-                        game2_iv_bluedot.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                    game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
-                                    game2_iv_bluedot.setX(XValue[clicknum]);
-                                    game2_iv_bluedot.setY(YValue[clicknum]);
-                                    game2_iv_bluedot.setVisibility(game2_iv_bluedot.VISIBLE);
-                                    clicknum++;
-                                    Log.d("자 나 몇번째 눌렀지?", "onClick: "+clicknum );
-                                    if(clicknum==11){
-                                        //TODO: Use ViewModel to re-instantiate base state
-                                        game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
-                                        game2_chronometer.stop();
-                                        clicknum=0;
-                                        game2_bt_rank.setEnabled(true);
-                                        game2_bt_start.setEnabled(true);
-                                        mainViewModel.getName().observe(getViewLifecycleOwner(), new Observer<String>() {
-                                            @Override
-                                            public void onChanged(String s) {
-                                                if(s!=null){
-                                                    documentid=s;
-                                                }
-                                            }
-                                        });
-//                                        Log.d("기록", "onClick: " + documentid + "ㅁㅇㄻㄴㅇㄹ"+ game2_chronometer.getText().toString());
-//                                        mainViewModel.savemyrecode(documentid, game2_chronometer.getText().toString());
-                                        mainViewModel.totalrecodes(documentid, NumberParser.parseChronoTimeToSeconds(game2_chronometer.getText().toString()));
+                    game2_iv_bluedot.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
+                            game2_iv_bluedot.setX(XValue[clicknum]);
+                            game2_iv_bluedot.setY(YValue[clicknum]);
+                            game2_iv_bluedot.setVisibility(game2_iv_bluedot.VISIBLE);
+                            clicknum++;
+                            Log.d("자 나 몇번째 눌렀지?", "onClick: " + clicknum);
+                            if (clicknum == 11) {
+                                //TODO: Use ViewModel to re-instantiate base state
+                                game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
+                                game2_chronometer.stop();
+                                clicknum = 0;
+                                game2_bt_rank.setEnabled(true);
+                                game2_bt_start.setEnabled(true);
+                                running = false;
+                                mainViewModel.getName().observe(getViewLifecycleOwner(), new Observer<String>() {
+                                    @Override
+                                    public void onChanged(String s) {
+                                        if (s != null) {
+                                            documentid = s;
+                                        }
                                     }
+                                });
+//                                          Log.d("기록", "onClick: " + documentid + "ㅁㅇㄻㄴㅇㄹ"+ game2_chronometer.getText().toString());
+//                                            mainViewModel.savemyrecode(documentid, game2_chronometer.getText().toString());
+                                mainViewModel.sendRecord(documentid, NumberParser.parseChronoTimeToSeconds(game2_chronometer.getText().toString()));
                             }
-                        });
-                    returnValue=false;
+                        }
+                    });
+                    returnValue = false;
                     game2_bt_start.setEnabled(false);
                     game2_bt_rank.setEnabled(false);
 
                     //timer 돌아가는거
-                    if(!running){
-                        game2_chronometer.setBase(SystemClock.elapsedRealtime()-pauseOffset);
+                    if (!running) {
+                        game2_chronometer.setBase(SystemClock.elapsedRealtime());
                         game2_chronometer.start();
                         running = true;
                     }
@@ -130,7 +131,7 @@ public class Game2Fragment extends Fragment {
                 mainViewModel.recordsLoaded().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
                     @Override
                     public void onChanged(Boolean loaded) {
-                        if(loaded==true){
+                        if (loaded == true) {
                             NavHostFragment.findNavController(Game2Fragment.this).navigate(R.id.action_game2Fragment_to_rankFragment);
                         }
                     }
