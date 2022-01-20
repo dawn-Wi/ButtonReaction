@@ -62,6 +62,7 @@ public class MainViewModel extends ViewModel {
         });
     }
 
+    //TODO: naming
     public void totalrecodes(String id, int recode){
         userRepository.totalrecodes(id,recode, result->{
             if(result.equals("Success"))
@@ -77,6 +78,7 @@ public class MainViewModel extends ViewModel {
 
     public void loadRecords()
     {
+        //TODO: How to structure data?
         userRepository.getRecords(result -> {
             if(result instanceof Result.Success){
                 //List<Record> resultList = ((Result.Success<List<Record>>)result).getData();

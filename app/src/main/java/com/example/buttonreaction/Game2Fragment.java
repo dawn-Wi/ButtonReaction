@@ -63,6 +63,7 @@ public class Game2Fragment extends Fragment {
         game2_bt_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO: What's this?
                 if(returnValue==true){
                     game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
                     returnValue=true;
@@ -71,6 +72,7 @@ public class Game2Fragment extends Fragment {
                 }
                 else if(returnValue==false){
                     for (int i=0;i<11;i++){
+                        //TODO: Different screen sizes?
                         XValue[i]=random.nextInt(900)+60;
                         YValue[i]=random.nextInt(1050)+150;
                     }
@@ -88,6 +90,7 @@ public class Game2Fragment extends Fragment {
                                     clicknum++;
                                     Log.d("자 나 몇번째 눌렀지?", "onClick: "+clicknum );
                                     if(clicknum==11){
+                                        //TODO: Use ViewModel to re-instantiate base state
                                         game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
                                         game2_chronometer.stop();
                                         clicknum=0;

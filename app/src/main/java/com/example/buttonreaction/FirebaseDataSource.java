@@ -28,6 +28,7 @@ public class FirebaseDataSource {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public void tryLogin(String id, String password, DataSourceCallback<Result> callback) {
+        //TODO: Why doesn't this work?
         db.collection("users")
                 .whereEqualTo("userId", id)
                 .whereEqualTo("Password", password)
