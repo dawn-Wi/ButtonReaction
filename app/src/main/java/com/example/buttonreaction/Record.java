@@ -1,20 +1,20 @@
 package com.example.buttonreaction;
 
 public class Record{
-    String record;
+    int record;
     String userId;
 
-    public Record(String record, String userId)
+    public Record(int record, String userId)
     {
         this.record = record;
         this.userId = userId;
     }
 
-    public String getRecord() {
+    public int getRecord() {
         return record;
     }
 
-    public void setRecord(String record) {
+    public void setRecord(int record) {
         this.record = record;
     }
 

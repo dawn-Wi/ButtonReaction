@@ -58,30 +58,21 @@ public class Game2Fragment extends Fragment {
         game2_chronometer = view.findViewById(R.id.game2_chronometer);
         game2_chronometer.setFormat("%s");
 
-        mainViewModel.recordsLoaded().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean loaded) {
-                if(loaded==true){
-                    NavHostFragment.findNavController(Game2Fragment.this).navigate(R.id.action_game2Fragment_to_rankFragment);
-                }
-            }
-        });
-
         game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
 
         game2_bt_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(returnValue==false){
+                if(returnValue==true){
                     game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
                     returnValue=true;
                     game2_bt_start.setEnabled(true);
                     game2_bt_rank.setEnabled(true);
                 }
-                else if(returnValue==true){
+                else if(returnValue==false){
                     for (int i=0;i<11;i++){
-                        XValue[i]=random.nextInt(920)+50;
-                        YValue[i]=random.nextInt(1100)+100;
+                        XValue[i]=random.nextInt(900)+60;
+                        YValue[i]=random.nextInt(1050)+150;
                     }
                     game2_iv_bluedot.setX(XValue[0]);
                     game2_iv_bluedot.setY(YValue[0]);
@@ -99,12 +90,9 @@ public class Game2Fragment extends Fragment {
                                     if(clicknum==11){
                                         game2_iv_bluedot.setVisibility(game2_iv_bluedot.INVISIBLE);
                                         game2_chronometer.stop();
+                                        clicknum=0;
                                         game2_bt_rank.setEnabled(true);
-//                                        Log.d("기록", SignupFragment.signup_et_email.getText().toString()+"onClick: "+game2_chronometer.getText().toString());
-//                                        if(getArguments() != null){
-//                                            documentid = getArguments().getString("documentid");
-//                                            Log.d("기록", documentid+"onClick: ");
-//                                        }
+                                        game2_bt_start.setEnabled(true);
                                         mainViewModel.getName().observe(getViewLifecycleOwner(), new Observer<String>() {
                                             @Override
                                             public void onChanged(String s) {
@@ -114,8 +102,8 @@ public class Game2Fragment extends Fragment {
                                             }
                                         });
 //                                        Log.d("기록", "onClick: " + documentid + "ㅁㅇㄻㄴㅇㄹ"+ game2_chronometer.getText().toString());
-//                                        mainViewModel.savemyrecode(documentid,game2_chronometer.getText().toString());
-                                        mainViewModel.totalrecodes(documentid,Float.parseFloat(game2_chronometer.getText().toString()));
+//                                        mainViewModel.savemyrecode(documentid, game2_chronometer.getText().toString());
+                                        mainViewModel.totalrecodes(documentid, NumberParser.parseChronoTimeToSeconds(game2_chronometer.getText().toString()));
                                     }
                             }
                         });
@@ -136,6 +124,14 @@ public class Game2Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mainViewModel.loadRecords();
+                mainViewModel.recordsLoaded().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean loaded) {
+                        if(loaded==true){
+                            NavHostFragment.findNavController(Game2Fragment.this).navigate(R.id.action_game2Fragment_to_rankFragment);
+                        }
+                    }
+                });
             }
         });
 

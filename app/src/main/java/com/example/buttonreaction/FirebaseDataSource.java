@@ -77,37 +77,38 @@ public class FirebaseDataSource {
 
     }
 
-//    public void savemyrecode(String id, String recode, DataSourceCallback<Result> callback){
-//        Map<String, Object> user = new HashMap<>();
-//        user.put("recode", recode);
-//
-//
-//        db.collection("users")
-//                .document(id)
-//                .set(user, SetOptions.merge())
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        Log.d("datasource", "onSuccess: firestore finish");
-//                        callback.onComplete(new Result.Success<String>("Success"));
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.d("datasource", "onSuccess: firestore not finish");
-//                        callback.onComplete(new Result.Error(new Exception("Failed")));
-//                    }
-//                });
-//
-//    }
+    public void saveMyRecord(String id, String recode, DataSourceCallback<Result> callback){
+//        ArrayList<Map<String,int>> user2 = new ArrayList<>();
+        Map<String, Object> user = new HashMap<>();
+        user.put("recode", recode);
 
-    public void totalrecodes(String id, float recode, DataSourceCallback<Result> callback) {
+
+        db.collection("users")
+                .document(id)
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("datasource", "onSuccess: firestore finish");
+                        callback.onComplete(new Result.Success<String>("Success"));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("datasource", "onSuccess: firestore not finish");
+                        callback.onComplete(new Result.Error(new Exception("Failed")));
+                    }
+                });
+
+    }
+
+    public void totalrecodes(String id, int record, DataSourceCallback<Result> callback) {
 //        Map<String, Object> user = new HashMap<>();
         ArrayList<Map<String, Object>> user = new ArrayList<Map<String, Object>>();
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("userId", id);
-        map.put("record", recode);
+        map.put("record", record);
 
         db.collection("totalrecords")
                 .add(map);
@@ -121,7 +122,7 @@ public class FirebaseDataSource {
                     if (task.isSuccessful()) {
                         List<DocumentSnapshot> snaps = task.getResult().getDocuments();
                         for(int i=0;i<snaps.size();i++){
-                            Record toAdd = new Record( snaps.get(i).getString("record"), snaps.get(i).getString("userId"));
+                            Record toAdd = new Record( (snaps.get(i).getDouble("record")).intValue(), snaps.get(i).getString("userId"));
                             toReturn.add(toAdd);
                         }
                         Log.d("datasource", "onSuccess: firestore finish");

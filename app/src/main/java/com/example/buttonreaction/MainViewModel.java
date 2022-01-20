@@ -8,9 +8,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MainViewModel extends ViewModel {
     private UserRepository userRepository = UserRepository.getInstance();
@@ -46,20 +49,20 @@ public class MainViewModel extends ViewModel {
         });
     }
 
-//    public void savemyrecode(String id, String recode){
-//        userRepository.savemyrecode(id,recode, result->{
-//            if(result.equals("Success"))
-//            {
-//                Log.d("DEBUG", "Register Success");
-//            }
-//            else
-//            {
-//                Log.d("DEBUG", "Register Failed");
-//            }
-//        });
-//    }
+    public void savemyrecode(String id, String recode){
+        userRepository.savemyrecode(id,recode, result->{
+            if(result.equals("Success"))
+            {
+                Log.d("DEBUG", "Register Success");
+            }
+            else
+            {
+                Log.d("DEBUG", "Register Failed");
+            }
+        });
+    }
 
-    public void totalrecodes(String id, float recode){
+    public void totalrecodes(String id, int recode){
         userRepository.totalrecodes(id,recode, result->{
             if(result.equals("Success"))
             {
@@ -78,10 +81,45 @@ public class MainViewModel extends ViewModel {
             if(result instanceof Result.Success){
                 //List<Record> resultList = ((Result.Success<List<Record>>)result).getData();
                recordList = ((Result.Success<List<Record>>)result).getData(); //선물 포장 뜯은거
-                Map<String, Float> myMap = new HashMap<String, Float>();
 
-                // resultList 에서 평균 계산 -> recordList
-//                Log.d("Asdfasdfasdfa", "loadRecords: "+resultList);
+                Map<String, Integer> namesOccurrencesMap = new HashMap<>();
+                for(int i=0; i<recordList.size(); i++)
+                {
+                    String userId = recordList.get(i).getUserId();
+                    if(namesOccurrencesMap.containsKey(userId))
+                    {
+                        int currNumber = namesOccurrencesMap.get(userId);
+                        namesOccurrencesMap.put(userId,currNumber+1);
+                    }
+                    else
+                    {
+                        namesOccurrencesMap.put(userId, 1);
+                    }
+                }
+
+                Map<String,Integer> totalTimesMap = new HashMap<>();
+                for(int i=0;i<recordList.size();i++){
+                    String userId = recordList.get(i).getUserId();
+                    if(totalTimesMap.containsKey(userId)){
+                        int currTotal=totalTimesMap.get(userId);
+                        totalTimesMap.put(userId,currTotal+recordList.get(i).getRecord());
+                    }
+                    else {
+                        totalTimesMap.put(userId,recordList.get(i).getRecord());
+                    }
+                }
+                List<Record> tempList = new ArrayList<>();
+
+                for(Map.Entry<String, Integer> entry : totalTimesMap.entrySet())
+                {
+                    String userId = entry.getKey();
+                    int totalTime = entry.getValue();
+                    int numTimes = namesOccurrencesMap.get(userId);
+                    int avgTime = totalTime/numTimes;
+                    Record toAdd = new Record(avgTime,userId);
+                    tempList.add(toAdd);
+                }
+                this.recordList=tempList;
 
                 recordsLoaded.setValue(true);
             }

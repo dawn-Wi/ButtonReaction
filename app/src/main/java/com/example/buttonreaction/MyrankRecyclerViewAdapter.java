@@ -36,7 +36,7 @@ public class MyrankRecyclerViewAdapter extends RecyclerView.Adapter<MyrankRecycl
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.name.setText(rankList.get(position).getUserId());
-        holder.content.setText(rankList.get(position).getRecord());
+        holder.content.setText(""+rankList.get(position).getRecord());
     }
 
     @Override

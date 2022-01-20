@@ -2,10 +2,6 @@ package com.example.buttonreaction;
 
 import android.util.Log;
 
-import com.example.buttonreaction.FirebaseDataSource;
-
-import java.util.List;
-
 public class UserRepository {
     private static volatile UserRepository INSTANCE = new UserRepository();
 
@@ -38,16 +34,16 @@ public class UserRepository {
     }
 
 
-//    public void savemyrecode(final String id, final String recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
-//        firebaseDataSource.savemyrecode(id,recode, result -> {
-//            if(result instanceof Result.Success)
-//                callback.onComplete("Success");
-//            else
-//                callback.onComplete(((Result.Error) result).getError().getMessage());
-//        });
-//    }
+    public void savemyrecode(final String id, final String recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
+        firebaseDataSource.saveMyRecord(id,recode, result -> {
+            if(result instanceof Result.Success)
+                callback.onComplete("Success");
+            else
+                callback.onComplete(((Result.Error) result).getError().getMessage());
+        });
+    }
 
-    public void totalrecodes(final String id, final float recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
+    public void totalrecodes(final String id, final int recode, final FirebaseDataSource.DataSourceCallback<String> callback) {
         firebaseDataSource.totalrecodes(id,recode, result -> {
             if(result instanceof Result.Success)
                 callback.onComplete("Success");
